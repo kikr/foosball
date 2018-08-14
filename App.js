@@ -1,4 +1,3 @@
-import { AppRegistry } from 'react-native';
-import App from './app/index';
+import FoosballApp from './app/index';
 
-AppRegistry.registerComponent('App', () => App);
+export default FoosballApp;
