@@ -26,7 +26,7 @@ class PlayerList extends React.Component {
 
   onAddPlayer() {
     const { navigation } = this.props; /* eslint-disable-line react/prop-types */
-    navigation.navigate('PlayerCreate');
+    navigation.navigate('PlayerCreateScreen');
   }
 
   render() {
