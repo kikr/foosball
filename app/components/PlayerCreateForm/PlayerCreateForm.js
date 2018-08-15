@@ -73,6 +73,11 @@ class PlayerCreateForm extends React.Component {
           onChangeText={lastName => this.setPlayerState({ lastName })}
         />
 
+        <TextInput
+          placeholder="Nick name"
+          onChangeText={nickName => this.setPlayerState({ nickName })}
+        />
+
         <Button
           title="Create"
           onPress={this.onCreatePlayer}

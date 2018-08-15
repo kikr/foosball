@@ -38,10 +38,10 @@ class PlayerList extends React.Component {
     return (
       <View style={styles.playerListRoot}>
         {
-          players.map((player, i) => (
+          players.map(player => (
             <ListItem
               style={styles.playerList}
-              key={i}
+              key={player.getId()}
               title={`${player.firstName} ${player.lastName}`}
               subtitle={player.nickName}
               hideChevron
