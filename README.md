@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
-Application structure was copied from [Spencer Carli's project](https://github.com/spencercarli/react-native-meteor-boilerplate/tree/master/RNApp)
+Application structure was taken from [Spencer Carli's project](https://github.com/spencercarli/react-native-meteor-boilerplate/tree/master/RNApp) and his [article](https://medium.com/the-react-native-log/organizing-a-react-native-project-9514dfadaa0) about it. I just wanted to some new way of structuring the application and this looked like a decent way to go.
 
 ## Table of Contents
 * [Updating to New Releases](#updating-to-new-releases)
