@@ -181,6 +181,12 @@ If this works, but you're still unable to load your app by scanning the QR code,
 
 If you're not able to load the `http` URL in your phone's web browser, try using the tethering/mobile hotspot feature on your phone (beware of data usage, though), connecting your computer to that WiFi network, and restarting the packager. If you are using a VPN you may need to disable it.
 
+## Dev server using incorrect network interface
+
+I had an issue of React Native dev server using wrong network to host the app. Somehow it didn't pick the default Wifi interface, instead it used by Virtual Box network, thus I wasn't able to laod to app using by phone.
+
+I was able to fix this by assigning my Wifi interface metric to 10 (this prioritises/makes it default). [See this answer](https://github.com/react-community/create-react-native-app/issues/60#issuecomment-287081523)
+
 ### iOS Simulator won't open
 
 If you're on a Mac, there are a few errors that users sometimes see when attempting to `npm run ios`:
