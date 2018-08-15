@@ -1,8 +1,9 @@
 import React from 'react';
 import PlayerList from '../components/PlayerList';
 
-const PlayerScreen = () => (
+const PlayersScreen = () => (
   <PlayerList />
 );
 
-export default PlayerScreen;
+
+export default PlayersScreen;

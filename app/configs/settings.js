@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
   FIREBASE_PROJECT_ID = '';
 }
 
-export const settings = {
+const settings = {
   env: process.env.NODE_ENV,
   FIREBASE_API_KEY,
   FIREBASE_PROJECT_ID,
