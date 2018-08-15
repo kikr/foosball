@@ -8,7 +8,7 @@ import {
 import PlayerCollection from '../../api/PlayerCollection';
 import Player from '../../dto/Player';
 
-class PlayerCreate extends React.Component {
+class PlayerCreateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isCreating: false, player: { firstName: '', lastName: '' } };
@@ -82,4 +82,4 @@ class PlayerCreate extends React.Component {
   }
 }
 
-export default PlayerCreate;
+export default PlayerCreateForm;

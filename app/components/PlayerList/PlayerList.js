@@ -1,5 +1,4 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
 import {
   View,
   FlatList,
@@ -8,7 +7,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import PlayerCollection from '../../api/PlayerCollection';
-import PlayerCreate from '../PlayerCreate';
 import styles from './styles';
 
 class PlayerList extends React.Component {
@@ -59,7 +57,4 @@ class PlayerList extends React.Component {
   }
 }
 
-export default createStackNavigator({
-  Players: PlayerList,
-  PlayerCreate,
-});
+export default PlayerList;

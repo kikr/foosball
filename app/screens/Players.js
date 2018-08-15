@@ -1,9 +1,8 @@
-import React from 'react';
+import { createStackNavigator } from 'react-navigation';
 import PlayerList from '../components/PlayerList';
+import PlayerCreateScreen from './PlayerCreate';
 
-const PlayersScreen = () => (
-  <PlayerList />
-);
-
-
-export default PlayersScreen;
+export default createStackNavigator({
+  PlayerList,
+  PlayerCreateScreen,
+});
