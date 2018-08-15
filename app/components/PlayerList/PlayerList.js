@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import PlayerCollection from '../../api/PlayerCollection';
+import styles from './styles';
 
 class PlayerList extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class PlayerList extends React.Component {
     return (
       <View>
         <FlatList
+          style={styles.playerList}
           data={players}
           renderItem={({ item }) => (
             <Text>
