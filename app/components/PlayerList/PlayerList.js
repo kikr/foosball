@@ -37,13 +37,14 @@ class PlayerList extends React.Component {
     }
 
     return (
-      <View>
+      <View style={styles.playerListRoot}>
         <FlatList
           style={styles.playerList}
           data={players}
           renderItem={({ item }) => (
             <Text>
               {item.firstName}
+              { ' ' /* Add white space */}
               {item.lastName}
             </Text>
           )}

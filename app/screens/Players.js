@@ -5,4 +5,6 @@ import PlayerCreateScreen from './PlayerCreate';
 export default createStackNavigator({
   PlayerList,
   PlayerCreateScreen,
+}, {
+  headerMode: 'none',
 });

@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  playerListRoot: {
+    flex: 1,
+  },
   playerList: {
-    margin: 100,
+    padding: 100,
+    flex: 1,
   },
 });
