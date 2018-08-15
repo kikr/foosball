@@ -18,4 +18,20 @@ export default class PlayerCollection extends Collection {
 
     return players;
   }
+
+  /**
+   * @param {Player} player to save
+   * @returns ID of the newly created Player
+   */
+  async createPlayer(player) {
+    if (!(player instanceof Player)) {
+      throw Error('Players can only be created out of Player instances');
+    }
+    return this.connection().collection(PLAYERS_COLLECTION_NAME).add(
+      // Firestore accepts only object types as its arguments, which is kinda weird,
+      // so convert it to object using JSON.
+      // Support for class instances might be on its way: https://github.com/firebase/firebase-js-sdk/issues/311
+      JSON.parse(JSON.stringify(player)),
+    ).id;
+  }
 }

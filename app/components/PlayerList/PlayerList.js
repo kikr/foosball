@@ -1,11 +1,14 @@
 import React from 'react';
+import { createStackNavigator } from 'react-navigation';
 import {
   View,
   FlatList,
   Text,
+  Button,
   ActivityIndicator,
 } from 'react-native';
 import PlayerCollection from '../../api/PlayerCollection';
+import PlayerCreate from '../PlayerCreate';
 import styles from './styles';
 
 class PlayerList extends React.Component {
@@ -13,13 +16,19 @@ class PlayerList extends React.Component {
     super(props);
 
     this.state = { isLoading: true, players: [] };
+
+    this.onAddPlayer = this.onAddPlayer.bind(this);
   }
 
   componentDidMount() {
-    // TODO: Handle error
     new PlayerCollection().getPlayers().then((players) => {
       this.setState({ players, isLoading: false });
     });
+  }
+
+  onAddPlayer() {
+    const { navigation } = this.props; /* eslint-disable-line react/prop-types */
+    navigation.navigate('PlayerCreate');
   }
 
   render() {
@@ -41,9 +50,16 @@ class PlayerList extends React.Component {
             </Text>
           )}
         />
+        <Button
+          title="Add a player"
+          onPress={this.onAddPlayer}
+        />
       </View>
     );
   }
 }
 
-export default PlayerList;
+export default createStackNavigator({
+  Players: PlayerList,
+  PlayerCreate,
+});
