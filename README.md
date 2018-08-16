@@ -23,6 +23,7 @@ Application structure was taken from [Spencer Carli's project](https://github.co
     * [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
     * [Should I Use ExpoKit?](#should-i-use-expokit)
 * [Troubleshooting](#troubleshooting)
+  * [Expo stuck on loading state](#expo-stuck-on-loading-state)
   * [Networking](#networking)
   * [iOS Simulator won't open](#ios-simulator-wont-open)
   * [QR Code does not scan](#qr-code-does-not-scan)
