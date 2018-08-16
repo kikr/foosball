@@ -1,11 +1,12 @@
 import React from 'react';
 import {
   View,
+  FlatList,
   Button,
   ActivityIndicator,
 } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import PlayerCollection from '../../api/PlayerCollection';
+import PlayerListItem from './PlayerListItem';
 import styles from './styles';
 
 class PlayerList extends React.Component {
@@ -53,17 +54,11 @@ class PlayerList extends React.Component {
 
     return (
       <View style={styles.playerListRoot}>
-        {
-          players.map(player => (
-            <ListItem
-              style={styles.playerList}
-              key={player.getId()}
-              title={`${player.firstName} ${player.lastName}`}
-              subtitle={player.nickName}
-              hideChevron
-            />
-          ))
-        }
+        <FlatList
+          keyExtractor={item => item.getId()}
+          data={players}
+          renderItem={PlayerListItem}
+        />
         <Button
           title="Add a player"
           onPress={this.onAddPlayer}
