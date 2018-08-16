@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import PlayerCollection from '../../api/PlayerCollection';
 import Player from '../../dto/Player';
+import styles from './styles';
 
 class PlayerCreateForm extends React.Component {
   constructor(props) {
@@ -56,24 +57,27 @@ class PlayerCreateForm extends React.Component {
 
     if (isCreating) {
       return (
-        <View>
+        <View style={{ flex: 1 }}>
           <ActivityIndicator />
         </View>
       );
     }
 
     return (
-      <View>
+      <View style={styles.playerCreateFormRoot}>
         <TextInput
+          style={styles.playerCreateFormTextInput}
           placeholder="First name"
           onChangeText={firstName => this.setPlayerState({ firstName })}
         />
         <TextInput
+          style={styles.playerCreateFormTextInput}
           placeholder="Last name"
           onChangeText={lastName => this.setPlayerState({ lastName })}
         />
 
         <TextInput
+          style={styles.playerCreateFormTextInput}
           placeholder="Nick name"
           onChangeText={nickName => this.setPlayerState({ nickName })}
         />
