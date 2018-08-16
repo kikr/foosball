@@ -13,8 +13,8 @@ export default class PlayerCollection extends Collection {
     const querySnapshot = await this.connection().collection(PLAYERS_COLLECTION_NAME).get();
 
     querySnapshot.forEach((playerDoc) => {
-      const playerDataWitId = { ...playerDoc.data(), ...{ id: playerDoc.id } };
-      players.push(new Player(playerDataWitId));
+      const playerDataWithId = { ...playerDoc.data(), ...{ id: playerDoc.id } };
+      players.push(new Player(playerDataWithId));
     });
 
     return players;

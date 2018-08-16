@@ -1,5 +1,8 @@
-export default class Player {
+import Document from './Document';
+
+export default class Player extends Document {
   constructor(data) {
+    super(data);
     Object.assign(this, data || {});
     this.validate();
   }
@@ -11,21 +14,5 @@ export default class Player {
     if (!(this.lastName)) {
       throw Error('Player last name is required!');
     }
-  }
-
-  /**
-   * Returns ID and throws if there's none. Don't use this for checking
-   * IDs, instead write a new function for that.
-   *
-   * I throw because I want to get properly informed if remote source did not
-   * return ID, or has changed its return format or something (with this new Firestore
-   * it could happend).
-   */
-  getId() {
-    // Just to make sure that there's an ID. Callers expect this to be non-empty.
-    if (!(this.id)) {
-      throw Error('Player has no ID. Probably this was never returned from remote source, or the return format has changed.');
-    }
-    return this.id;
   }
 }
