@@ -7,4 +7,13 @@ export default createMaterialTopTabNavigator({
   Players: PlayersScreen,
   Matches: MatchScreen,
   PlayerStats: PlayerStatsScreen,
+}, {
+  tabBarOptions: {
+    labelStyle: {
+      fontSize: 12,
+    },
+    style: {
+      paddingTop: 15, // Don't go under status bar
+    },
+  },
 });
