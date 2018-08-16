@@ -18,14 +18,30 @@ class PlayerList extends React.Component {
   }
 
   componentDidMount() {
-    new PlayerCollection().getPlayers().then((players) => {
-      this.setState({ players, isLoading: false });
-    });
+    this.getAllPlayers();
   }
 
   onAddPlayer() {
     const { navigation } = this.props; /* eslint-disable-line react/prop-types */
-    navigation.navigate('PlayerCreateScreen');
+    navigation.navigate('PlayerCreateScreen', {
+      goBackAndRefreshPlayerList: this.onAfterAddPlayer.bind(this),
+    });
+  }
+
+  onAfterAddPlayer() {
+    const { navigation } = this.props; /* eslint-disable-line react/prop-types */
+
+    this.setState({ isLoading: true });
+    // Navigate to self. We could call goBack, but let's be explicit just to be sure.
+    navigation.navigate('PlayerList');
+
+    this.getAllPlayers();
+  }
+
+  getAllPlayers() {
+    new PlayerCollection().getPlayers().then((players) => {
+      this.setState({ players, isLoading: false });
+    });
   }
 
   render() {
