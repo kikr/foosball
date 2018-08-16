@@ -26,11 +26,9 @@ class PlayerCreateForm extends React.Component {
       .createPlayer(new Player(player))
       .then(() => {
         console.log('Player created...');
-        /* eslint-disable react/prop-types */
-        const { navigation: { state: { params: goBackAndRefreshPlayerList } } } = this.props;
-        /* eslint-enable react/prop-types */
+        const { navigation } = this.props;
 
-        goBackAndRefreshPlayerList();
+        navigation.goBack();
       });
   }
 

@@ -20,29 +20,40 @@ class PlayerList extends React.Component {
 
   componentDidMount() {
     this.getAllPlayers();
+
+    this.getAllPlayersOnEveryFocus();
   }
 
   onAddPlayer() {
-    const { navigation } = this.props; /* eslint-disable-line react/prop-types */
-    navigation.navigate('PlayerCreateScreen', {
-      goBackAndRefreshPlayerList: this.onAfterAddPlayer.bind(this),
-    });
-  }
+    const { navigation } = this.props;
 
-  onAfterAddPlayer() {
-    const { navigation } = this.props; /* eslint-disable-line react/prop-types */
-
-    this.setState({ isLoading: true });
-    // Navigate to self. We could call goBack, but let's be explicit just to be sure.
-    navigation.navigate('PlayerList');
-
-    this.getAllPlayers();
+    navigation.navigate('PlayerCreateScreen');
   }
 
   getAllPlayers() {
+    this.setState({ isLoading: true });
+
     new PlayerCollection().getPlayers().then((players) => {
       this.setState({ players, isLoading: false });
     });
+  }
+
+  /**
+   * Attach to navigation event to fetch all players on every focus.
+   *
+   * This is a compromise and dirty solution to the problem of refreshing
+   * only after creating a player. I couldn't get it to work now so here we are.
+   *
+   */
+  getAllPlayersOnEveryFocus() {
+    const { navigation } = this.props;
+
+    navigation.addListener(
+      'willFocus',
+      () => {
+        this.getAllPlayers();
+      },
+    );
   }
 
   render() {
