@@ -23,6 +23,7 @@ Application structure was taken from [Spencer Carli's project](https://github.co
     * [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
     * [Should I Use ExpoKit?](#should-i-use-expokit)
 * [Troubleshooting](#troubleshooting)
+  * [Expo stuck on loading state](#expo-stuck-on-loading-state)
   * [Networking](#networking)
   * [iOS Simulator won't open](#ios-simulator-wont-open)
   * [QR Code does not scan](#qr-code-does-not-scan)
@@ -159,9 +160,9 @@ If you have made use of Expo APIs while working on your project, then those API 
 
 Yesterday everything worked just fine, and this morning the app won't load from the dev server, it's just stuck showing me the expo icon. 
 
-There can be many reasons for this, so let's start firing in the dark:
+Naturally there can be many reasons for this, so let's start firing in the dark:
 
-* ***Disable remote JS debug***: I had a case where disabling the JS debugging temporarily helped. The browser did not show anything, but it might be that some hidden breakpoint prevented the app from loading.
+* ***Remote JS Debugging is tripping***: If you leave the window/tab from the previous debugging session open, the app might load, so just close the tab/window and try again ([stackoverflow](https://stackoverflow.com/questions/49365217/react-native-debug-js-remotely-error-window-deltaurltobloburl-is-not-a-function)). You can also try to temporarily disable Remote JS debugging from Expo and see if that helps.
 
 ### Networking
 
