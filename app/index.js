@@ -3,6 +3,10 @@ import PlayersScreen from './screens/Players';
 import MatchScreen from './screens/Matches';
 import PlayerStatsScreen from './screens/PlayerStats';
 
+PlayerStatsScreen.navigationOptions = {
+  title: 'Stats',
+};
+
 export default createMaterialTopTabNavigator({
   Players: PlayersScreen,
   Matches: MatchScreen,
