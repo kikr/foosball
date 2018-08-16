@@ -155,6 +155,14 @@ If you have made use of Expo APIs while working on your project, then those API 
 
 ## Troubleshooting
 
+### Expo stuck on loading state
+
+Yesterday everything worked just fine, and this morning the app won't load from the dev server, it's just stuck showing me the expo icon. 
+
+There can be many reasons for this, so let's start firing in the dark:
+
+* ***Disable remote JS debug***: I had a case where disabling the JS debugging temporarily helped. The browser did not show anything, but it might be that some hidden breakpoint prevented the app from loading.
+
 ### Networking
 
 If you're unable to load your app on your phone due to a network timeout or a refused connection, a good first step is to verify that your phone and computer are on the same network and that they can reach each other. Create React Native App needs access to ports 19000 and 19001 so ensure that your network and firewall settings allow access from your device to your computer on both of these ports.
