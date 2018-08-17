@@ -6,17 +6,19 @@ import {
 } from 'react-native';
 import styles from './styles';
 
-const MatchListItem = ({ item: match }) => {
-  const toFullName = player => player.nickName ?
-    ` ${player.firstName} "${player.nickName}" ${player.lastName}` :
-    ` ${player.firstName} ${player.lastName}`;
-  const homePlayers = match.home.map(toFullName);
-  const awayPlayers = match.away.map(toFullName);
+const composePlayerNames = (players) => {
+  const composedName = player => (
+    player.nickName
+      ? ` ${player.firstName} "${player.nickName}" ${player.lastName}`
+      : ` ${player.firstName} ${player.lastName}`
+  );
 
-  const duration = parseInt(match.duration, 10);
-  const minutes = Math.floor(duration / 60);
-  const seconds = duration - (minutes * 60);
-  const durationString = seconds ? `${minutes}:${seconds}` : `${minutes}:00`;
+  return players.map(composedName);
+};
+
+const MatchListItem = ({ item: match }) => {
+  const [homePlayerNames, awayPlayerNames] = [match.home, match.away].map(composePlayerNames);
+  const matchTime = `${parseInt(match.duration / 60, 10)}:${match.duration % 60}`;
 
 
   return (
@@ -25,15 +27,25 @@ const MatchListItem = ({ item: match }) => {
       title={(
         <View style={{ alignItems: 'center' }}>
           <View>
-            <Text> {`${homePlayers}`}</Text>
+            <Text>
+              {`${homePlayerNames}`}
+            </Text>
           </View>
           <View>
-            <Text> {`${match.homeScore}`}</Text>
-            <Text> {`${durationString}`}</Text>
-            <Text> {`${match.awayScore}`}</Text>
+            <Text>
+              {`${match.homeScore}`}
+            </Text>
+            <Text>
+              {`${matchTime}`}
+            </Text>
+            <Text>
+              {`${match.awayScore}`}
+            </Text>
           </View>
           <View>
-            <Text> {`${awayPlayers}`}</Text>
+            <Text>
+              {`${awayPlayerNames}`}
+            </Text>
           </View>
         </View>
       )}
