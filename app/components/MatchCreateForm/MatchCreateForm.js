@@ -18,7 +18,7 @@ class MatchCreateForm extends React.Component {
     super(props);
     const startDate = new Date();
     this.state = {
-      isCreating: false, startDate, endDate: new Date(), awayScore: 0, homeScore: 0 
+      isCreating: false, startDate, endDate: new Date(), awayScore: 0, homeScore: 0,
     };
 
     this.matchBuilder = new MatchBuilder();
