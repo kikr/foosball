@@ -5,11 +5,11 @@ import {
   ScrollView,
   ActivityIndicator,
   Text,
-  Picker,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import MatchCollection from '../../api/MatchCollection';
 import MatchPlayerPicker from '../MatchPlayerPicker';
+import MatchScorePicker from '../MatchScorePicker';
 import { MatchBuilder } from '../../dto/Match';
 import styles from './styles';
 
@@ -29,6 +29,8 @@ class MatchCreateForm extends React.Component {
     this.onChangeSelectedAwayPlayers = this.onChangeSelectedAwayPlayers.bind(this);
     this.onChangeMatchStartDate = this.onChangeMatchStartDate.bind(this);
     this.onChangeMatchEndDate = this.onChangeMatchEndDate.bind(this);
+    this.onChangeAwayScore = this.onChangeAwayScore.bind(this);
+    this.onChangeHomeScore = this.onChangeHomeScore.bind(this);
   }
 
   onCreateMatch() {
@@ -77,7 +79,6 @@ class MatchCreateForm extends React.Component {
     this.matchBuilder.setHomeScore(homeScore);
   }
 
-
   enableLoading() {
     this.setState({ isCreating: true });
   }
@@ -86,7 +87,6 @@ class MatchCreateForm extends React.Component {
     const {
       isCreating, startDate, endDate, awayScore, homeScore,
     } = this.state;
-    const validScores = Array.from(Array(11).keys());
 
     if (isCreating) {
       return (
@@ -103,57 +103,36 @@ class MatchCreateForm extends React.Component {
       >
 
         {/* Scores */}
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-
-          <View style={{ flex: 1 }}>
-            <Text> Home </Text>
-            <Picker
-              style={{ height: 50, width: 50 }}
-              selectedValue={homeScore}
-              onValueChange={score => this.onChangeHomeScore(score)}
-            >
-              {
-                validScores.map(i => (
-                  <Picker.Item
-                    key={i.toString()}
-                    label={i.toString()}
-                    value={i}
-                  />
-                ))
-              }
-            </Picker>
-          </View>
-
-          <View style={{ flex: 1 }}>
-            <Text> Away </Text>
-            <Picker
-              style={{ height: 50, width: 50 }}
-              selectedValue={awayScore}
-              onValueChange={score => this.onChangeAwayScore(score)}
-            >
-              {
-                validScores.map(i => (
-                  <Picker.Item
-                    key={i.toString()}
-                    label={i.toString()}
-                    value={i}
-                  />
-                ))
-              }
-            </Picker>
-          </View>
+        <View style={{
+          padding: 5,
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+        >
+          <MatchScorePicker onChangeScore={this.onChangeHomeScore} title="Home" score={homeScore} />
+          <MatchScorePicker onChangeScore={this.onChangeAwayScore} title="Away" score={awayScore} />
         </View>
 
         {/* Players  */}
-        <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
-          <MatchPlayerPicker title="Home" placeHolder="Pick a player" onChangeSelectedPlayers={this.onChangeSelectedHomePlayers} />
-          <MatchPlayerPicker title="Away" placeHolder="Pick a player" onChangeSelectedPlayers={this.onChangeSelectedAwayPlayers} />
+        <View style={{
+          padding: 5,
+          flex: 3,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+        >
+          <MatchPlayerPicker placeHolder="Pick a player" onChangeSelectedPlayers={this.onChangeSelectedHomePlayers} />
+          <MatchPlayerPicker placeHolder="Pick a player" onChangeSelectedPlayers={this.onChangeSelectedAwayPlayers} />
         </View>
 
 
         {/* Match time  */}
-        <View style={{ flex: 1 }}>
-
+        <View style={{
+          padding: 5,
+          flex: 1,
+        }}
+        >
           <Text> Match time </Text>
 
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -182,7 +161,6 @@ class MatchCreateForm extends React.Component {
           </View>
 
         </View>
-
 
         <Button
           title="Create"

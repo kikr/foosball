@@ -50,7 +50,7 @@ class MatchPlayerPicker extends React.Component {
 
   render() {
     const { isLoadingPlayers, playerSelection, selectedPlayers } = this.state;
-    const { placeHolder, title } = this.props;
+    const { placeHolder } = this.props;
 
     if (isLoadingPlayers) {
       return <ActivityIndicator />;
