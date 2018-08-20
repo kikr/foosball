@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Button,
   View,
+  ScrollView,
   ActivityIndicator,
   TextInput,
 } from 'react-native';
@@ -81,7 +82,7 @@ class MatchCreateForm extends React.Component {
     }
 
     return (
-      <View style={styles.matchCreateFormRoot}>
+      <ScrollView style={styles.matchCreateFormRoot}>
         <TextInput
           placeholder="Enter away score"
           onChangeText={awayScore => this.matchBuilder.setAwayScore(awayScore)}
@@ -118,7 +119,7 @@ class MatchCreateForm extends React.Component {
           title="Create"
           onPress={this.onCreateMatch}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
