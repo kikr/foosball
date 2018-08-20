@@ -1,8 +1,10 @@
-import React from 'react';
+import { createStackNavigator } from 'react-navigation';
 import MatchList from '../components/MatchList';
+import MatchCreateScreen from './MatchCreate';
 
-const MatchScreen = ({ navigation }) => (
-  <MatchList navigation={navigation} />
-);
-
-export default MatchScreen;
+export default createStackNavigator({
+  MatchList,
+  MatchCreateScreen,
+}, {
+  headerMode: 'none',
+});

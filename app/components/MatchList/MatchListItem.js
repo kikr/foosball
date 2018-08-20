@@ -16,10 +16,16 @@ const composePlayerNames = (players) => {
   return players.map(composedName);
 };
 
+function getMatchTime(match) {
+  const matchTimeMinutes = parseInt(match.duration / 60, 10);
+  const matchTimeSeconds = match.duration % 60;
+  let matchTime = matchTimeMinutes < 10 ? `0${matchTimeMinutes}` : `${matchTimeMinutes}`;
+  matchTime = matchTimeSeconds < 10 ? `${matchTime}:${matchTimeSeconds}0` : `${matchTime}:${matchTimeSeconds}`;
+  return matchTime;
+}
+
 const MatchListItem = ({ item: match }) => {
   const [homePlayerNames, awayPlayerNames] = [match.home, match.away].map(composePlayerNames);
-  const matchTime = `${parseInt(match.duration / 60, 10)}:${match.duration % 60}`;
-
 
   return (
     <ListItem
@@ -36,7 +42,7 @@ const MatchListItem = ({ item: match }) => {
               {`${match.homeScore}`}
             </Text>
             <Text>
-              {`${matchTime}`}
+              {`${getMatchTime(match)}`}
             </Text>
             <Text>
               {`${match.awayScore}`}

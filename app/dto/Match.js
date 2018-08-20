@@ -4,7 +4,6 @@ export default class Match extends Document {
   constructor(data) {
     super(data);
     Object.assign(this, data || {});
-    this.validate();
   }
 
   validate() {
@@ -30,5 +29,46 @@ export default class Match extends Document {
     if (this.duration === undefined) {
       throw Error('Match duration is required!');
     }
+  }
+}
+
+export class MatchBuilder {
+  constructor() {
+    this.match = new Match();
+  }
+
+  setDuration(seconds) {
+    this.match.duration = seconds;
+    return this;
+  }
+
+  setStart(date) {
+    this.match.start = date;
+    return this;
+  }
+
+  setHomeScore(score) {
+    this.match.homeScore = score;
+    return this;
+  }
+
+  setAwayScore(score) {
+    this.match.awayScore = score;
+    return this;
+  }
+
+  setHome(players) {
+    this.match.home = players;
+    return this;
+  }
+
+  setAway(players) {
+    this.match.away = players;
+    return this;
+  }
+
+  build() {
+    this.match.validate();
+    return this.match;
   }
 }

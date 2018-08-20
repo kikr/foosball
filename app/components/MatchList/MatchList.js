@@ -28,7 +28,7 @@ class MatchList extends React.Component {
     const { navigation } = this.props;
 
     // TODO
-    // navigation.navigate('MatchCreateScreen');
+    navigation.navigate('MatchCreateScreen');
   }
 
   getAllMatches() {
