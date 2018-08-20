@@ -17,12 +17,12 @@ class MatchCreateForm extends React.Component {
   constructor(props) {
     super(props);
     const startDate = new Date();
-    this.state = { isCreating: false, startDate, endDate: new Date(), awayScore: 0, homeScore: 0 };
+    this.state = {
+      isCreating: false, startDate, endDate: new Date(), awayScore: 0, homeScore: 0 
+    };
 
     this.matchBuilder = new MatchBuilder();
     this.matchBuilder.setStart(startDate); // Allows user to use default value of the date picker
-    this.formState = {};
-    this.formInputRefs = { };
 
     this.onCreateMatch = this.onCreateMatch.bind(this);
     this.onChangeSelectedHomePlayers = this.onChangeSelectedHomePlayers.bind(this);
@@ -83,7 +83,9 @@ class MatchCreateForm extends React.Component {
   }
 
   render() {
-    const { isCreating, startDate, endDate, awayScore, homeScore } = this.state;
+    const {
+      isCreating, startDate, endDate, awayScore, homeScore,
+    } = this.state;
     const validScores = Array.from(Array(11).keys());
 
     if (isCreating) {
