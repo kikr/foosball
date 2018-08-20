@@ -97,50 +97,92 @@ class MatchCreateForm extends React.Component {
     }
 
     return (
-      <ScrollView style={styles.matchCreateFormRoot}>
-        <Text value="Home score" />
-        <Picker
-          selectedValue={homeScore}
-          style={{ height: 50, width: 100 }}
-          onValueChange={score => this.onChangeHomeScore(score)}
-        >
-          {
-            validScores.map(i => <Picker.Item label={i.toString()} value={i} />)
-          }
-        </Picker>
+      <ScrollView
+        style={styles.matchCreateFormRoot}
+        contentContainerStyle={{ flex: 1 }}
+      >
 
-        <Text value="Away score" />
-        <Picker
-          selectedValue={awayScore}
-          style={{ height: 50, width: 100 }}
-          onValueChange={score => this.onChangeAwayScore(score)}
-        >
-          {
-            validScores.map(i => <Picker.Item label={i.toString()} value={i} />)
-          }
-        </Picker>
+        {/* Scores */}
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        <MatchPlayerPicker placeHolder="Pick home player" onChangeSelectedPlayers={this.onChangeSelectedHomePlayers} />
-        <MatchPlayerPicker placeHolder="Pick away player" onChangeSelectedPlayers={this.onChangeSelectedAwayPlayers} />
+          <View style={{ flex: 1 }}>
+            <Text> Home </Text>
+            <Picker
+              style={{ height: 50, width: 50 }}
+              selectedValue={homeScore}
+              onValueChange={score => this.onChangeHomeScore(score)}
+            >
+              {
+                validScores.map(i => (
+                  <Picker.Item
+                    key={i.toString()}
+                    label={i.toString()}
+                    value={i}
+                  />
+                ))
+              }
+            </Picker>
+          </View>
 
-        <DatePicker
-          date={startDate}
-          mode="datetime"
-          placeholder="Start of the match"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          onDateChange={(date) => { this.onChangeMatchStartDate(date); }}
-        />
+          <View style={{ flex: 1 }}>
+            <Text> Away </Text>
+            <Picker
+              style={{ height: 50, width: 50 }}
+              selectedValue={awayScore}
+              onValueChange={score => this.onChangeAwayScore(score)}
+            >
+              {
+                validScores.map(i => (
+                  <Picker.Item
+                    key={i.toString()}
+                    label={i.toString()}
+                    value={i}
+                  />
+                ))
+              }
+            </Picker>
+          </View>
+        </View>
 
-        <DatePicker
-          date={endDate}
-          minDate={startDate}
-          mode="datetime"
-          placeholder="Match duration"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          onDateChange={(date) => { this.onChangeMatchEndDate(date); }}
-        />
+        {/* Players  */}
+        <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
+          <MatchPlayerPicker title="Home" placeHolder="Pick a player" onChangeSelectedPlayers={this.onChangeSelectedHomePlayers} />
+          <MatchPlayerPicker title="Away" placeHolder="Pick a player" onChangeSelectedPlayers={this.onChangeSelectedAwayPlayers} />
+        </View>
+
+
+        {/* Match time  */}
+        <View style={{ flex: 1 }}>
+
+          <Text> Match time </Text>
+
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <DatePicker
+              date={startDate}
+              mode="datetime"
+              placeholder="Start of the match"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              onDateChange={(date) => { this.onChangeMatchStartDate(date); }}
+              showIcon={false}
+            />
+
+            <Text> to </Text>
+
+            <DatePicker
+              date={endDate}
+              minDate={startDate}
+              mode="datetime"
+              placeholder="Match duration"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              onDateChange={(date) => { this.onChangeMatchEndDate(date); }}
+              showIcon={false}
+            />
+          </View>
+
+        </View>
+
 
         <Button
           title="Create"

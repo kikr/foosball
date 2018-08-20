@@ -50,15 +50,32 @@ class MatchPlayerPicker extends React.Component {
 
   render() {
     const { isLoadingPlayers, playerSelection, selectedPlayers } = this.state;
-    const { placeHolder } = this.props;
+    const { placeHolder, title } = this.props;
 
     if (isLoadingPlayers) {
       return <ActivityIndicator />;
     }
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
+        <Picker
+          style={{ margin: 5 }}
+          onValueChange={playerId => this.onSelectPlayer(playerId)}
+        >
+          <Picker.Item value="" label={placeHolder} />
+          {
+            playerSelection.map(player => (
+              <Picker.Item
+                key={player.getId()}
+                label={`${player.firstName} ${player.lastName}`}
+                value={player.getId()}
+              />
+            ))
+          }
+        </Picker>
+
         <FlatList
+          style={{ margin: 5 }}
           keyExtractor={player => player.getId()}
           data={selectedPlayers}
           renderItem={({ item }) => (
@@ -72,16 +89,6 @@ class MatchPlayerPicker extends React.Component {
               />
             </View>)}
         />
-
-        <Picker
-          style={{ height: 50, width: 100 }}
-          onValueChange={playerId => this.onSelectPlayer(playerId)}
-        >
-          <Picker.Item value="" label={placeHolder} />
-          {
-            playerSelection.map(player => <Picker.Item label={`${player.firstName} ${player.lastName}`} value={player.getId()} />)
-          }
-        </Picker>
       </View>
 
     );
