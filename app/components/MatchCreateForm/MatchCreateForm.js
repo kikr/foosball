@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   ActivityIndicator,
-  TextInput,
+  Text,
+  Picker,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import MatchCollection from '../../api/MatchCollection';
@@ -16,7 +17,7 @@ class MatchCreateForm extends React.Component {
   constructor(props) {
     super(props);
     const startDate = new Date();
-    this.state = { isCreating: false, startDate, endDate: new Date() };
+    this.state = { isCreating: false, startDate, endDate: new Date(), awayScore: 0, homeScore: 0 };
 
     this.matchBuilder = new MatchBuilder();
     this.matchBuilder.setStart(startDate); // Allows user to use default value of the date picker
@@ -66,12 +67,24 @@ class MatchCreateForm extends React.Component {
     this.setState({ endDate });
   }
 
+  onChangeAwayScore(awayScore) {
+    this.setState({ awayScore });
+    this.matchBuilder.setAwayScore(awayScore);
+  }
+
+  onChangeHomeScore(homeScore) {
+    this.setState({ homeScore });
+    this.matchBuilder.setHomeScore(homeScore);
+  }
+
+
   enableLoading() {
     this.setState({ isCreating: true });
   }
 
   render() {
-    const { isCreating, startDate, endDate } = this.state;
+    const { isCreating, startDate, endDate, awayScore, homeScore } = this.state;
+    const validScores = Array.from(Array(11).keys());
 
     if (isCreating) {
       return (
@@ -83,15 +96,27 @@ class MatchCreateForm extends React.Component {
 
     return (
       <ScrollView style={styles.matchCreateFormRoot}>
-        <TextInput
-          placeholder="Enter away score"
-          onChangeText={awayScore => this.matchBuilder.setAwayScore(awayScore)}
-        />
+        <Text value="Home score" />
+        <Picker
+          selectedValue={homeScore}
+          style={{ height: 50, width: 100 }}
+          onValueChange={score => this.onChangeHomeScore(score)}
+        >
+          {
+            validScores.map(i => <Picker.Item label={i.toString()} value={i} />)
+          }
+        </Picker>
 
-        <TextInput
-          placeholder="Enter home score"
-          onChangeText={homeScore => this.matchBuilder.setHomeScore(homeScore)}
-        />
+        <Text value="Away score" />
+        <Picker
+          selectedValue={awayScore}
+          style={{ height: 50, width: 100 }}
+          onValueChange={score => this.onChangeAwayScore(score)}
+        >
+          {
+            validScores.map(i => <Picker.Item label={i.toString()} value={i} />)
+          }
+        </Picker>
 
         <MatchPlayerPicker placeHolder="Pick home player" onChangeSelectedPlayers={this.onChangeSelectedHomePlayers} />
         <MatchPlayerPicker placeHolder="Pick away player" onChangeSelectedPlayers={this.onChangeSelectedAwayPlayers} />

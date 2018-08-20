@@ -20,7 +20,7 @@ function getMatchTime(match) {
   const matchTimeMinutes = parseInt(match.duration / 60, 10);
   const matchTimeSeconds = match.duration % 60;
   let matchTime = matchTimeMinutes < 10 ? `0${matchTimeMinutes}` : `${matchTimeMinutes}`;
-  matchTime = matchTimeSeconds < 10 ? `${matchTime}:${matchTimeSeconds}0` : `${matchTime}:${matchTimeSeconds}`;
+  matchTime = matchTimeSeconds < 10 ? `${matchTime}:0${matchTimeSeconds}` : `${matchTime}:${matchTimeSeconds}`;
   return matchTime;
 }
 
