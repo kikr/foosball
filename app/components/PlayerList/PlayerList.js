@@ -58,18 +58,21 @@ class PlayerList extends React.Component {
 
   render() {
     const { players, isLoading } = this.state;
-
-    if (isLoading) {
-      return <ActivityIndicator />;
-    }
-
-    return (
-      <View style={styles.playerListRoot}>
+    const content = isLoading
+      ? <ActivityIndicator style={{ flex: 1 }} />
+      : (
         <FlatList
           keyExtractor={item => item.getId()}
           data={players}
           renderItem={PlayerListItem}
         />
+      );
+
+    return (
+      <View style={styles.playerListRoot}>
+
+        { content }
+
         <Button
           title="Add a player"
           onPress={this.onAddPlayer}

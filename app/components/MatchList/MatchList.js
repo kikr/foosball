@@ -56,18 +56,21 @@ class MatchList extends React.Component {
 
   render() {
     const { matches, isLoading } = this.state;
-
-    if (isLoading) {
-      return <ActivityIndicator />;
-    }
-
-    return (
-      <View style={styles.matchListRoot}>
+    const content = isLoading
+      ? <ActivityIndicator style={{ flex: 1 }} />
+      : (
         <FlatList
           keyExtractor={item => item.getId()}
           data={matches}
           renderItem={MatchListItem}
         />
+      );
+
+    return (
+      <View style={styles.matchListRoot}>
+
+        { content }
+
         <Button
           title="Add a match"
           onPress={this.onAddMatch}
