@@ -1,33 +1,23 @@
 import Document from './Document';
 
 export default class Match extends Document {
-  constructor(data) {
-    super(data);
-    Object.assign(this, data || {});
-  }
+  constructor({
+    start,
+    duration,
+    awayScore,
+    homeScore,
+    home,
+    away,
+    ...rest
+  }) {
+    super(rest);
 
-  setDuration(seconds) {
-    this.duration = seconds;
-  }
-
-  setStart(date) {
-    this.start = date;
-  }
-
-  setHomeScore(score) {
-    this.homeScore = score;
-  }
-
-  setAwayScore(score) {
-    this.awayScore = score;
-  }
-
-  setHome(players) {
-    this.home = players;
-  }
-
-  setAway(players) {
-    this.away = players;
+    this.duration = duration;
+    this.start = start;
+    this.homeScore = homeScore;
+    this.awayScore = awayScore;
+    this.home = home;
+    this.away = away;
   }
 
   validate() {

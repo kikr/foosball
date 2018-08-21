@@ -1,9 +1,15 @@
 import Document from './Document';
 
 export default class Player extends Document {
-  constructor(data) {
-    super(data);
-    Object.assign(this, data || {});
+  constructor({
+    firstName, lastName, nickName, ...rest
+  }) {
+    super(rest);
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.nickName = nickName;
+
     this.validate();
   }
 

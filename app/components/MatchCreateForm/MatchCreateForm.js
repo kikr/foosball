@@ -23,7 +23,6 @@ class MatchCreateForm extends React.Component {
       endDate: new Date(),
       playerSelection: [],
       start,
-      duration: 0,
       awayScore: 0,
       homeScore: 0,
       home: [],
@@ -49,23 +48,10 @@ class MatchCreateForm extends React.Component {
 
   onCreateMatch() {
     console.log('Creating a match...');
-    const {
-      start,
-      duration,
-      awayScore,
-      homeScore,
-      home,
-      away,
-    } = this.state;
 
-    const match = new Match({
-      start,
-      duration,
-      awayScore,
-      homeScore,
-      home,
-      away,
-    });
+    const { start, endDate } = this.state;
+    const duration = parseInt(Math.abs(new Date(start) - new Date(endDate)) / 1000, 10);
+    const match = new Match(Object.assign({ duration }, this.state));
 
     match.validate();
 
@@ -86,9 +72,7 @@ class MatchCreateForm extends React.Component {
   }
 
   onChangeMatchEndDate(endDate) {
-    const { start } = this.state;
-    const seconds = parseInt(Math.abs(new Date(start) - new Date(endDate)) / 1000, 10);
-    this.setState({ endDate, duration: seconds });
+    this.setState({ endDate });
   }
 
   onChangeAwayScore(awayScore) {

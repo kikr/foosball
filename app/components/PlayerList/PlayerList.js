@@ -19,8 +19,6 @@ class PlayerList extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllPlayers();
-
     this.getAllPlayersOnEveryFocus();
   }
 

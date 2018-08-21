@@ -19,8 +19,6 @@ class MatchList extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllMatches();
-
     this.getAllMatchesOnEveryFocus();
   }
 

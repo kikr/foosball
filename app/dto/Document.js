@@ -2,6 +2,10 @@
  * Base class for classes representing remote NoSQL document
  */
 export default class Document {
+  constructor({ id }) {
+    this.id = id;
+  }
+
   /**
    * Returns ID and throws if there's none. Don't use this for checking
    * IDs, instead write a new function for that.
