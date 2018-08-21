@@ -6,6 +6,30 @@ export default class Match extends Document {
     Object.assign(this, data || {});
   }
 
+  setDuration(seconds) {
+    this.duration = seconds;
+  }
+
+  setStart(date) {
+    this.start = date;
+  }
+
+  setHomeScore(score) {
+    this.homeScore = score;
+  }
+
+  setAwayScore(score) {
+    this.awayScore = score;
+  }
+
+  setHome(players) {
+    this.home = players;
+  }
+
+  setAway(players) {
+    this.away = players;
+  }
+
   validate() {
     if (!(this.home)) {
       throw Error('Match home players are required!');
@@ -29,46 +53,5 @@ export default class Match extends Document {
     if (this.duration === undefined) {
       throw Error('Match duration is required!');
     }
-  }
-}
-
-export class MatchBuilder {
-  constructor() {
-    this.match = new Match();
-  }
-
-  setDuration(seconds) {
-    this.match.duration = seconds;
-    return this;
-  }
-
-  setStart(date) {
-    this.match.start = date;
-    return this;
-  }
-
-  setHomeScore(score) {
-    this.match.homeScore = score;
-    return this;
-  }
-
-  setAwayScore(score) {
-    this.match.awayScore = score;
-    return this;
-  }
-
-  setHome(players) {
-    this.match.home = players;
-    return this;
-  }
-
-  setAway(players) {
-    this.match.away = players;
-    return this;
-  }
-
-  build() {
-    this.match.validate();
-    return this.match;
   }
 }

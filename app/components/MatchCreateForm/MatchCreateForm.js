@@ -10,27 +10,28 @@ import DatePicker from 'react-native-datepicker';
 import MatchCollection from '../../api/MatchCollection';
 import MatchPlayerPicker from '../MatchPlayerPicker';
 import MatchScorePicker from '../MatchScorePicker';
-import { MatchBuilder } from '../../dto/Match';
+import Match from '../../dto/Match';
 import PlayerCollection from '../../api/PlayerCollection';
 import styles from './styles';
 
 class MatchCreateForm extends React.Component {
   constructor(props) {
     super(props);
-    const startDate = new Date();
-    this.state = {
-      isCreating: false,
-      startDate,
-      endDate: new Date(),
+    const start = new Date();
+    const match = new Match({
+      start,
+      duration: 0,
       awayScore: 0,
       homeScore: 0,
       home: [],
       away: [],
+    });
+    this.state = {
+      isCreating: false,
+      endDate: new Date(),
       playerSelection: [],
+      match,
     };
-
-    this.matchBuilder = new MatchBuilder();
-    this.matchBuilder.setStart(startDate); // Allows user to use default value of the date picker
 
     this.onCreateMatch = this.onCreateMatch.bind(this);
     this.onDeselectAwayPlayer = this.onDeselectAwayPlayer.bind(this);
@@ -51,11 +52,14 @@ class MatchCreateForm extends React.Component {
 
   onCreateMatch() {
     console.log('Creating a match...');
+    const { match } = this.state;
+
+    match.validate();
 
     this.enableLoading();
 
     new MatchCollection()
-      .createMatch(this.matchBuilder.build())
+      .createMatch(match)
       .then(() => {
         console.log('Match created...');
         const { navigation } = this.props;
@@ -65,31 +69,35 @@ class MatchCreateForm extends React.Component {
   }
 
   onChangeMatchStartDate(startDate) {
-    this.matchBuilder.setStart(startDate);
-    this.setState({ startDate });
+    const { match } = this.state;
+
+    match.setStart(startDate);
+    this.setState({ match });
   }
 
   onChangeMatchEndDate(endDate) {
-    const { startDate } = this.state;
-    const seconds = parseInt(Math.abs(new Date(startDate) - new Date(endDate)) / 1000, 10);
-
-    this.matchBuilder.setDuration(seconds);
-    this.setState({ endDate });
+    const { match } = this.state;
+    this.calculateDuration(endDate);
+    this.setState({ endDate, match });
   }
 
   onChangeAwayScore(awayScore) {
-    this.setState({ awayScore });
-    this.matchBuilder.setAwayScore(awayScore);
+    const { match } = this.state;
+
+    match.setAwayScore(awayScore);
+    this.setState({ match });
   }
 
   onChangeHomeScore(homeScore) {
-    this.setState({ homeScore });
-    this.matchBuilder.setHomeScore(homeScore);
+    const { match } = this.state;
+
+    match.setHomeScore(homeScore);
+    this.setState({ match });
   }
 
   onDeselectAwayPlayer(playerId) {
-    let { away } = this.state;
-    const { playerSelection } = this.state;
+    const { playerSelection, match } = this.state;
+    let { away } = match;
 
     away = away.filter((selectedPlayer) => {
       if (selectedPlayer.getId() !== playerId) {
@@ -99,13 +107,13 @@ class MatchCreateForm extends React.Component {
       return false;
     });
 
-    this.matchBuilder.setAway(away);
-    this.setState({ away, playerSelection });
+    match.setAway(away);
+    this.setState({ match, playerSelection });
   }
 
   onDeselectHomePlayer(playerId) {
-    let { home } = this.state;
-    const { playerSelection } = this.state;
+    const { playerSelection, match } = this.state;
+    let { home } = match;
 
     home = home.filter((selectedPlayer) => {
       if (selectedPlayer.getId() !== playerId) {
@@ -115,32 +123,44 @@ class MatchCreateForm extends React.Component {
       return false;
     });
 
-    this.matchBuilder.setHome(home);
-    this.setState({ home, playerSelection });
+    match.setHome(home);
+    this.setState({ match, playerSelection });
   }
 
   onSelectHomePlayer(selectedPlayerId) {
-    let { home, playerSelection } = this.state;
+    const { match } = this.state;
+    let { playerSelection } = this.state;
+    let { home } = match;
 
     home = home.concat(
       playerSelection.filter(player => player.getId() === selectedPlayerId),
     );
     playerSelection = playerSelection.filter(player => player.getId() !== selectedPlayerId);
 
-    this.matchBuilder.setHome(home);
-    this.setState({ home, playerSelection });
+    match.setHome(home);
+    this.setState({ match, playerSelection });
   }
 
   onSelectAwayPlayer(selectedPlayerId) {
-    let { away, playerSelection } = this.state;
+    const { match } = this.state;
+    let { playerSelection } = this.state;
+    let { away } = match;
 
     away = away.concat(
       playerSelection.filter(player => player.getId() === selectedPlayerId),
     );
     playerSelection = playerSelection.filter(player => player.getId() !== selectedPlayerId);
 
-    this.matchBuilder.setAway(away);
-    this.setState({ away, playerSelection });
+    match.setAway(away);
+    this.setState({ match, playerSelection });
+  }
+
+  calculateDuration(endDate) {
+    const { match } = this.state;
+    const { start } = match;
+    const seconds = parseInt(Math.abs(new Date(start) - new Date(endDate)) / 1000, 10);
+
+    match.setDuration(seconds);
   }
 
   enableLoading() {
@@ -149,7 +169,12 @@ class MatchCreateForm extends React.Component {
 
   render() {
     const {
-      isCreating, startDate, endDate, awayScore, homeScore, home, away, playerSelection,
+      isCreating,
+      playerSelection,
+      endDate,
+      match: {
+        start, awayScore, homeScore, home, away,
+      },
     } = this.state;
 
     if (isCreating) {
@@ -201,7 +226,7 @@ class MatchCreateForm extends React.Component {
 
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start' }}>
             <DatePicker
-              date={startDate}
+              date={start}
               mode="datetime"
               placeholder="Start of the match"
               confirmBtnText="Confirm"
@@ -214,7 +239,7 @@ class MatchCreateForm extends React.Component {
 
             <DatePicker
               date={endDate}
-              minDate={startDate}
+              minDate={start}
               mode="datetime"
               placeholder="Match duration"
               confirmBtnText="Confirm"
