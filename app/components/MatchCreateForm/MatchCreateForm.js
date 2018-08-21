@@ -18,19 +18,16 @@ class MatchCreateForm extends React.Component {
   constructor(props) {
     super(props);
     const start = new Date();
-    const match = new Match({
+    this.state = {
+      isCreating: false,
+      endDate: new Date(),
+      playerSelection: [],
       start,
       duration: 0,
       awayScore: 0,
       homeScore: 0,
       home: [],
       away: [],
-    });
-    this.state = {
-      isCreating: false,
-      endDate: new Date(),
-      playerSelection: [],
-      match,
     };
 
     this.onCreateMatch = this.onCreateMatch.bind(this);
@@ -52,7 +49,23 @@ class MatchCreateForm extends React.Component {
 
   onCreateMatch() {
     console.log('Creating a match...');
-    const { match } = this.state;
+    const {
+      start,
+      duration,
+      awayScore,
+      homeScore,
+      home,
+      away,
+    } = this.state;
+
+    const match = new Match({
+      start,
+      duration,
+      awayScore,
+      homeScore,
+      home,
+      away,
+    });
 
     match.validate();
 
@@ -68,36 +81,27 @@ class MatchCreateForm extends React.Component {
       });
   }
 
-  onChangeMatchStartDate(startDate) {
-    const { match } = this.state;
-
-    match.setStart(startDate);
-    this.setState({ match });
+  onChangeMatchStartDate(start) {
+    this.setState({ start });
   }
 
   onChangeMatchEndDate(endDate) {
-    const { match } = this.state;
-    this.calculateDuration(endDate);
-    this.setState({ endDate, match });
+    const { start } = this.state;
+    const seconds = parseInt(Math.abs(new Date(start) - new Date(endDate)) / 1000, 10);
+    this.setState({ endDate, duration: seconds });
   }
 
   onChangeAwayScore(awayScore) {
-    const { match } = this.state;
-
-    match.setAwayScore(awayScore);
-    this.setState({ match });
+    this.setState({ awayScore });
   }
 
   onChangeHomeScore(homeScore) {
-    const { match } = this.state;
-
-    match.setHomeScore(homeScore);
-    this.setState({ match });
+    this.setState({ homeScore });
   }
 
   onDeselectAwayPlayer(playerId) {
-    const { playerSelection, match } = this.state;
-    let { away } = match;
+    const { playerSelection } = this.state;
+    let { away } = this.state;
 
     away = away.filter((selectedPlayer) => {
       if (selectedPlayer.getId() !== playerId) {
@@ -107,13 +111,12 @@ class MatchCreateForm extends React.Component {
       return false;
     });
 
-    match.setAway(away);
-    this.setState({ match, playerSelection });
+    this.setState({ away, playerSelection });
   }
 
   onDeselectHomePlayer(playerId) {
-    const { playerSelection, match } = this.state;
-    let { home } = match;
+    const { playerSelection } = this.state;
+    let { home } = this.state;
 
     home = home.filter((selectedPlayer) => {
       if (selectedPlayer.getId() !== playerId) {
@@ -123,44 +126,31 @@ class MatchCreateForm extends React.Component {
       return false;
     });
 
-    match.setHome(home);
-    this.setState({ match, playerSelection });
+    this.setState({ home, playerSelection });
   }
 
   onSelectHomePlayer(selectedPlayerId) {
-    const { match } = this.state;
     let { playerSelection } = this.state;
-    let { home } = match;
+    let { home } = this.state;
 
     home = home.concat(
       playerSelection.filter(player => player.getId() === selectedPlayerId),
     );
     playerSelection = playerSelection.filter(player => player.getId() !== selectedPlayerId);
 
-    match.setHome(home);
-    this.setState({ match, playerSelection });
+    this.setState({ home, playerSelection });
   }
 
   onSelectAwayPlayer(selectedPlayerId) {
-    const { match } = this.state;
     let { playerSelection } = this.state;
-    let { away } = match;
+    let { away } = this.state;
 
     away = away.concat(
       playerSelection.filter(player => player.getId() === selectedPlayerId),
     );
     playerSelection = playerSelection.filter(player => player.getId() !== selectedPlayerId);
 
-    match.setAway(away);
-    this.setState({ match, playerSelection });
-  }
-
-  calculateDuration(endDate) {
-    const { match } = this.state;
-    const { start } = match;
-    const seconds = parseInt(Math.abs(new Date(start) - new Date(endDate)) / 1000, 10);
-
-    match.setDuration(seconds);
+    this.setState({ away, playerSelection });
   }
 
   enableLoading() {
@@ -172,9 +162,11 @@ class MatchCreateForm extends React.Component {
       isCreating,
       playerSelection,
       endDate,
-      match: {
-        start, awayScore, homeScore, home, away,
-      },
+      start,
+      awayScore,
+      homeScore,
+      home,
+      away,
     } = this.state;
 
     if (isCreating) {
