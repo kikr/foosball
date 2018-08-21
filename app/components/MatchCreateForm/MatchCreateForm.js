@@ -133,10 +133,8 @@ class MatchCreateForm extends React.Component {
     let { playerSelection } = this.state;
     let { home } = this.state;
 
-    home = home.concat(
-      playerSelection.filter(player => player.getId() === selectedPlayerId),
-    );
-    playerSelection = playerSelection.filter(player => player.getId() !== selectedPlayerId);
+    home = this.assignPlayerFromSelection(selectedPlayerId, home, playerSelection);
+    playerSelection = this.removePlayerFromSelection(selectedPlayerId, playerSelection);
 
     this.setState({ home, playerSelection });
   }
@@ -145,13 +143,23 @@ class MatchCreateForm extends React.Component {
     let { playerSelection } = this.state;
     let { away } = this.state;
 
-    away = away.concat(
-      playerSelection.filter(player => player.getId() === selectedPlayerId),
-    );
-    playerSelection = playerSelection.filter(player => player.getId() !== selectedPlayerId);
+    away = this.assignPlayerFromSelection(selectedPlayerId, away, playerSelection);
+    playerSelection = this.removePlayerFromSelection(selectedPlayerId, playerSelection);
 
     this.setState({ away, playerSelection });
   }
+
+  /* eslint-disable class-methods-use-this */
+  assignPlayerFromSelection(playerId, team, playerSelection) {
+    return team.concat(
+      playerSelection.filter(player => player.getId() === playerId),
+    );
+  }
+
+  removePlayerFromSelection(playerId, playerSelection) {
+    return playerSelection.filter(player => player.getId() !== playerId);
+  }
+  /* eslint-enable class-methods-use-this */
 
   enableLoading() {
     this.setState({ isCreating: true });
