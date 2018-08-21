@@ -100,31 +100,25 @@ class MatchCreateForm extends React.Component {
   }
 
   onDeselectAwayPlayer(playerId) {
-    const { playerSelection } = this.state;
+    let { playerSelection } = this.state;
     let { away } = this.state;
 
-    away = away.filter((selectedPlayer) => {
-      if (selectedPlayer.getId() !== playerId) {
-        return true;
-      }
-      playerSelection.push(selectedPlayer);
-      return false;
-    });
+    ({
+      team: away,
+      playerSelection,
+    } = this.assignPlayerToSelection(playerId, away, playerSelection));
 
     this.setState({ away, playerSelection });
   }
 
   onDeselectHomePlayer(playerId) {
-    const { playerSelection } = this.state;
+    let { playerSelection } = this.state;
     let { home } = this.state;
 
-    home = home.filter((selectedPlayer) => {
-      if (selectedPlayer.getId() !== playerId) {
-        return true;
-      }
-      playerSelection.push(selectedPlayer);
-      return false;
-    });
+    ({
+      team: home,
+      playerSelection,
+    } = this.assignPlayerToSelection(playerId, home, playerSelection));
 
     this.setState({ home, playerSelection });
   }
@@ -133,8 +127,10 @@ class MatchCreateForm extends React.Component {
     let { playerSelection } = this.state;
     let { home } = this.state;
 
-    home = this.assignPlayerFromSelection(selectedPlayerId, home, playerSelection);
-    playerSelection = this.removePlayerFromSelection(selectedPlayerId, playerSelection);
+    ({
+      team: home,
+      playerSelection,
+    } = this.assignPlayerFromSelection(selectedPlayerId, home, playerSelection));
 
     this.setState({ home, playerSelection });
   }
@@ -143,21 +139,39 @@ class MatchCreateForm extends React.Component {
     let { playerSelection } = this.state;
     let { away } = this.state;
 
-    away = this.assignPlayerFromSelection(selectedPlayerId, away, playerSelection);
-    playerSelection = this.removePlayerFromSelection(selectedPlayerId, playerSelection);
+    ({
+      team: away,
+      playerSelection,
+    } = this.assignPlayerFromSelection(selectedPlayerId, away, playerSelection));
 
     this.setState({ away, playerSelection });
   }
 
   /* eslint-disable class-methods-use-this */
-  assignPlayerFromSelection(playerId, team, playerSelection) {
-    return team.concat(
-      playerSelection.filter(player => player.getId() === playerId),
-    );
+  assignPlayerToSelection(playerId, team, playerSelection) {
+    return {
+      team: team.filter((selectedPlayer) => {
+        if (selectedPlayer.getId() !== playerId) {
+          return true;
+        }
+        playerSelection.push(selectedPlayer);
+        return false;
+      }),
+      playerSelection,
+    };
   }
 
-  removePlayerFromSelection(playerId, playerSelection) {
-    return playerSelection.filter(player => player.getId() !== playerId);
+  assignPlayerFromSelection(playerId, team, playerSelection) {
+    return {
+      playerSelection: playerSelection.filter((selectedPlayer) => {
+        if (selectedPlayer.getId() !== playerId) {
+          return true;
+        }
+        team.push(selectedPlayer);
+        return false;
+      }),
+      team,
+    };
   }
   /* eslint-enable class-methods-use-this */
 
