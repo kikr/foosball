@@ -41,41 +41,53 @@ export default class PlayerCollection extends Collection {
     if (!(match instanceof Match)) {
       throw Error('Players can only be created out of Player instances');
     }
-    const batch = this.connection().batch();
-
-    this.updateTeamPlayerStats(
-      match.home, match.homeScore > match.awayScore, match.homeScore, match.awayScore, batch,
-    );
-    this.updateTeamPlayerStats(
-      match.away, match.awayScore > match.homeScore, match.awayScore, match.homeScore, batch,
-    );
-
-    return batch.commit();
-  }
-
-  updateTeamPlayerStats(team, didWin, goalsScored, goalsConceded, batch) {
     // Smells, Firestore specific batch-function, although we try to keep things generic
-
+    const batch = this.connection().batch();
+    const { away, home } = match;
     const collection = this.connection().collection(PLAYERS_COLLECTION_NAME);
+    let stats;
     let playerDocRef;
 
-    team.forEach((player) => {
+    home.forEach((player) => {
       playerDocRef = collection.doc(player.getId());
-      const { stats } = player;
+      stats = this.updateSinglePlayerStats(
+        player, match.homeScore > match.awayScore, match.homeScore, match.awayScore,
+      );
 
-      if (didWin) {
-        stats.wins += 1;
-      } else {
-        stats.losses += 1;
-      }
+      batch.update(playerDocRef, {
+        stats: JSON.parse(JSON.stringify(stats)),
+      });
+    });
 
-      stats.goalsScored = goalsScored + stats.goalsScored;
-      stats.goalsConceded = goalsConceded + stats.goalsConceded;
+    away.forEach((player) => {
+      playerDocRef = collection.doc(player.getId());
+      stats = this.updateSinglePlayerStats(
+        player, match.awayScore > match.homeScore, match.awayScore, match.homeScore,
+      );
 
       batch.update(playerDocRef, {
         // See comments above why we mess with JSON
         stats: JSON.parse(JSON.stringify(stats)),
       });
     });
+
+    return batch.commit();
   }
+
+  /* eslint-disable class-methods-use-this */
+  updateSinglePlayerStats(player, didWin, goalsScored, goalsConceded) {
+    const { stats } = player;
+
+    if (didWin) {
+      stats.wins += 1;
+    } else {
+      stats.losses += 1;
+    }
+
+    stats.goalsScored = goalsScored + stats.goalsScored;
+    stats.goalsConceded = goalsConceded + stats.goalsConceded;
+
+    return stats;
+  }
+  /* eslint-enable class-methods-use-this */
 }

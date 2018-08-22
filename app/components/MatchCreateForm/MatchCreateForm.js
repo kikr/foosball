@@ -63,6 +63,7 @@ class MatchCreateForm extends React.Component {
         console.log('Match created...');
         const { navigation } = this.props;
 
+        // Optimistic update
         new PlayerCollection().updatePlayerStats(match);
 
         navigation.goBack();
