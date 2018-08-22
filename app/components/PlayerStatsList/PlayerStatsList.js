@@ -12,7 +12,7 @@ class PlayerStatsList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isLoading: true, players: [], ascend: true };
+    this.state = { isLoading: true, players: [], ascendingSort: true };
 
     this.onSortByWins = this.onSortByWins.bind(this);
     this.onSortByLosses = this.onSortByLosses.bind(this);
@@ -54,6 +54,12 @@ class PlayerStatsList extends React.Component {
     this.setState({ isLoading: true });
 
     new PlayerCollection().getPlayers().then((players) => {
+      // Quick and dirty way to intially sort by wins.
+      // Existing methods doesn't really work due to they toggling nature
+      players.sort(
+        (player1, player2) => player2.stats.wins - player1.stats.wins,
+      );
+
       this.setState({ players, isLoading: false });
     });
   }
@@ -71,9 +77,9 @@ class PlayerStatsList extends React.Component {
 
   sortByNumericPlayerStat(statProperty) {
     const { players } = this.state;
-    const { ascend } = this.state;
+    const { ascendingSort } = this.state;
 
-    if (ascend) {
+    if (ascendingSort) {
       players.sort(
         (player1, player2) => player1.stats[statProperty] - player2.stats[statProperty],
       );
@@ -83,7 +89,7 @@ class PlayerStatsList extends React.Component {
       );
     }
     // Notice toggling of the sort direction.
-    this.setState({ players, ascend: !ascend });
+    this.setState({ players, ascendingSort: !ascendingSort });
   }
 
   render() {
