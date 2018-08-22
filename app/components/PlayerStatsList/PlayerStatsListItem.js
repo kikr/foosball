@@ -8,19 +8,19 @@ import styles from './styles';
 
 const PlayerStatsListItem = ({ item: player }) => (
   <View style={styles.listItemRoot}>
-    <Text>
+    <Text style={{ flex: 2 }}>
       {player.getFullCoolName()}
     </Text>
-    <Text>
+    <Text style={{ flex: 1 }}>
       {player.stats.wins}
     </Text>
-    <Text>
+    <Text style={{ flex: 1 }}>
       {player.stats.losses}
     </Text>
-    <Text>
+    <Text style={{ flex: 1 }}>
       {player.stats.goalsScored}
     </Text>
-    <Text>
+    <Text style={{ flex: 1 }}>
       {player.stats.goalsConceded}
     </Text>
   </View>

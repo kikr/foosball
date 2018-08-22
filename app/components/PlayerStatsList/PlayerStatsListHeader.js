@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View,
-  Button,
+  Text,
 } from 'react-native';
 import styles from './styles';
 
@@ -13,7 +13,7 @@ const HEADERS = {
   GOALS_CONCEDED: 'Goals conceded',
 };
 
-const onHeaderPress = (header, props) => {
+const onHeaderPress = (headers, props) => {
   const {
     onSortByWins,
     onSortByLosses,
@@ -22,7 +22,7 @@ const onHeaderPress = (header, props) => {
     onSortByPlayerName,
   } = props;
 
-  switch (header[1]) {
+  switch (headers[1]) {
     case HEADERS.PLAYER_NAME:
       onSortByPlayerName();
       break;
@@ -46,12 +46,13 @@ const onHeaderPress = (header, props) => {
 const PlayerStatsListHeader = props => (
   <View style={styles.listHeader}>
     {
-      Object.entries(HEADERS).map(entry => (
-        <Button
+      Object.entries(HEADERS).map(headers => (
+        <Text
           style={styles.listHeaderItem}
-          title={entry[1]}
-          onPress={() => onHeaderPress(entry, props)}
-        />
+          onPress={() => onHeaderPress(headers, props)}
+        >
+          {headers[1]}
+        </Text>
       ))
     }
 
