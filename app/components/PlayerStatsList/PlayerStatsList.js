@@ -108,7 +108,7 @@ class PlayerStatsList extends React.Component {
       );
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
 
         { content }
 
