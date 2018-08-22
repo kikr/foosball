@@ -67,17 +67,21 @@ class PlayerCreateForm extends React.Component {
       <View style={styles.playerCreateFormRoot}>
         <TextInput
           style={styles.playerCreateFormTextInput}
+          autoFocus
+          autoCapitalize="words"
           placeholder="First name"
           onChangeText={firstName => this.setPlayerState({ firstName })}
         />
         <TextInput
           style={styles.playerCreateFormTextInput}
+          autoCapitalize="words"
           placeholder="Last name"
           onChangeText={lastName => this.setPlayerState({ lastName })}
         />
 
         <TextInput
           style={styles.playerCreateFormTextInput}
+          autoCapitalize="words"
           placeholder="Nick name"
           onChangeText={nickName => this.setPlayerState({ nickName })}
         />
