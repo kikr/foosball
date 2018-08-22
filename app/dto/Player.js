@@ -9,7 +9,7 @@ export default class Player extends Document {
 
     this.firstName = firstName;
     this.lastName = lastName;
-    this.nickName = nickName;
+    this.nickName = nickName || '';
     this.stats = stats || new PlayerStats({
       wins: 0,
       losses: 0,
@@ -18,6 +18,13 @@ export default class Player extends Document {
     });
 
     this.validate();
+  }
+
+  /**
+   * Get full name, with the nick name included
+   */
+  getFullCoolName() {
+    return `${this.firstName} "${this.nickName}" ${this.lastName}`;
   }
 
   validate() {
