@@ -24,7 +24,7 @@ export default class Player extends Document {
    * Get full name, with the nick name included
    */
   getFullCoolName() {
-    return `${this.firstName} "${this.nickName}" ${this.lastName}`;
+    return this.nickName ? `${this.firstName} "${this.nickName}" ${this.lastName}` : `${this.firstName} ${this.lastName}`;
   }
 
   validate() {
