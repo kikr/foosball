@@ -43,11 +43,23 @@ class PlayerStatsList extends React.Component {
 
   onSortByPlayerName() {
     const { players } = this.state;
+    const { ascendingSort } = this.state;
 
-    players.sort();
+    this.sortByNumericPlayerStat('goalsConceded');
 
+    if (ascendingSort) {
+      players.sort(
+        (player1, player2) => player1.firstName.toLowerCase().charCodeAt(0)
+        - player2.firstName.toLowerCase().charCodeAt(0),
+      );
+    } else {
+      players.sort(
+        (player1, player2) => player2.firstName.toLowerCase().charCodeAt(0)
+        - player1.firstName.toLowerCase().charCodeAt(0),
+      );
+    }
     // Notice toggling of the sort direction.
-    this.setState({ players });
+    this.setState({ players, ascendingSort: !ascendingSort });
   }
 
   getAllPlayers() {
