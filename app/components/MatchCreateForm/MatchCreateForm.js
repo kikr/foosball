@@ -13,6 +13,7 @@ import MatchScorePicker from '../MatchScorePicker';
 import Match from '../../dto/Match';
 import PlayerCollection from '../../api/PlayerCollection';
 import styles from './styles';
+import { theme } from '../../global/styles';
 
 class MatchCreateForm extends React.Component {
   constructor(props) {
@@ -254,6 +255,7 @@ class MatchCreateForm extends React.Component {
 
         <Button
           title="Create"
+          color={theme.color}
           onPress={this.onCreateMatch}
         />
       </ScrollView>

@@ -8,6 +8,7 @@ import {
 import PlayerCollection from '../../api/PlayerCollection';
 import Player from '../../dto/Player';
 import styles from './styles';
+import { theme } from '../../global/styles';
 
 class PlayerCreateForm extends React.Component {
   constructor(props) {
@@ -88,6 +89,7 @@ class PlayerCreateForm extends React.Component {
 
         <Button
           title="Create"
+          color={theme.color}
           onPress={this.onCreatePlayer}
         />
       </View>

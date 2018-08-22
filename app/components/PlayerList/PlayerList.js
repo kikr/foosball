@@ -8,6 +8,7 @@ import {
 import PlayerCollection from '../../api/PlayerCollection';
 import PlayerListItem from './PlayerListItem';
 import styles from './styles';
+import { theme } from '../../global/styles';
 
 class PlayerList extends React.Component {
   constructor(props) {
@@ -73,6 +74,7 @@ class PlayerList extends React.Component {
 
         <Button
           title="Add a player"
+          color={theme.color}
           onPress={this.onAddPlayer}
         />
       </View>

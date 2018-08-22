@@ -8,6 +8,7 @@ import {
 import MatchCollection from '../../api/MatchCollection';
 import MatchListItem from './MatchListItem';
 import styles from './styles';
+import { theme } from '../../global/styles';
 
 class MatchList extends React.Component {
   constructor(props) {
@@ -71,6 +72,7 @@ class MatchList extends React.Component {
 
         <Button
           title="Add a match"
+          color={theme.color}
           onPress={this.onAddMatch}
         />
       </View>
