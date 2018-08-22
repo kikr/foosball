@@ -42,7 +42,7 @@ const MatchPlayerPicker = (props) => {
             </Text>
             <Button
               title="Deselect"
-              onPress={onDeselectPlayer.bind(undefined, item.getId())}
+              onPress={() => { onDeselectPlayer(item.getId()); }}
             />
           </View>)}
       />
