@@ -43,6 +43,7 @@ class MatchCreateForm extends React.Component {
 
   componentDidMount() {
     new PlayerCollection().getPlayers().then((players) => {
+      this.sortAlphabetically(players);
       this.setState({ playerSelection: players });
     });
   }
@@ -160,6 +161,15 @@ class MatchCreateForm extends React.Component {
       }),
       team,
     };
+  }
+  /* eslint-enable class-methods-use-this */
+
+  /* eslint-disable class-methods-use-this */
+  sortAlphabetically(players) {
+    players.sort(
+      (player1, player2) => player1.firstName.toLowerCase().charCodeAt(0)
+      - player2.firstName.toLowerCase().charCodeAt(0),
+    );
   }
   /* eslint-enable class-methods-use-this */
 

@@ -24,7 +24,7 @@ const MatchPlayerPicker = (props) => {
           playerSelection.map(player => (
             <Picker.Item
               key={player.getId()}
-              label={`${player.firstName} ${player.lastName}`}
+              label={player.getFullCoolName()}
               value={player.getId()}
             />
           ))
@@ -35,10 +35,10 @@ const MatchPlayerPicker = (props) => {
         style={{ margin: 5 }}
         keyExtractor={player => player.getId()}
         data={selectedPlayers}
-        renderItem={({ item }) => (
+        renderItem={({ item: player }) => (
           <View>
             <Text>
-              {`${item.firstName}`}
+              {player.getFullCoolName()}
             </Text>
             <Button
               title="Deselect"
