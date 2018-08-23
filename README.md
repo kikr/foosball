@@ -162,7 +162,7 @@ Yesterday everything worked just fine, and this morning the app won't load from 
 
 Naturally there can be many reasons for this, so let's start firing in the dark:
 
-* ***Remote JS Debugging is tripping***: If you leave the window/tab from the previous debugging session open, the app might load, so just close the tab/window and try again ([stackoverflow](https://stackoverflow.com/questions/49365217/react-native-debug-js-remotely-error-window-deltaurltobloburl-is-not-a-function)). You can also try to temporarily disable Remote JS debugging from Expo and see if that helps.
+* ***Remote JS Debugging is going bananas***: If you leave the window/tab from the previous debugging session open, the app might not load, so just close the tab/window and try again ([stackoverflow](https://stackoverflow.com/questions/49365217/react-native-debug-js-remotely-error-window-deltaurltobloburl-is-not-a-function)). You can also try to toggle the Remote JS debugging from Expo and see if that helps.
 
 ### Networking
 
