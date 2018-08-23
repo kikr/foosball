@@ -143,7 +143,7 @@ class PlayerCreateForm extends React.Component {
 
         <Button
           title="Create"
-          color={theme.color}
+          backgroundColor={theme.color}
           onPress={this.onCreatePlayer}
         />
       </View>
