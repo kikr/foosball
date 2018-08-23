@@ -1,50 +1,65 @@
 import React from 'react';
 import {
-  TextInput,
-  Button,
   View,
   ActivityIndicator,
 } from 'react-native';
+import {
+  Button,
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+} from 'react-native-elements';
 import PlayerCollection from '../../api/PlayerCollection';
 import Player from '../../dto/Player';
 import styles from './styles';
 import { theme } from '../../global/styles';
 
+const FirstNameRequiredError = key => (
+  <FormValidationMessage key={key}> Required </FormValidationMessage>
+);
+const LastNameRequiredError = FirstNameRequiredError;
+
 class PlayerCreateForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isCreating: false, player: { firstName: '', lastName: '' } };
+    this.state = {
+      isCreating: false,
+      errors: { firstName: [], lastName: [] },
+    };
+    this.player = { firstName: '', lastName: '' };
 
     this.onCreatePlayer = this.onCreatePlayer.bind(this);
+    this.setFirstName = this.setFirstName.bind(this);
+    this.setLastName = this.setLastName.bind(this);
+    this.setNickName = this.setNickName.bind(this);
   }
 
   onCreatePlayer() {
     console.log('Creating a player...');
-    const { player } = this.state;
+    const { player } = this;
 
-    this.enableLoading();
+    if (this.isValid()) {
+      this.enableLoading();
 
-    new PlayerCollection()
-      .createPlayer(new Player(player))
-      .then(() => {
-        console.log('Player created...');
-        this.goBack();
-      });
+      new PlayerCollection()
+        .createPlayer(new Player(player))
+        .then(() => {
+          console.log('Player created...');
+          this.goBack();
+        });
+    }
   }
 
-  /**
-   * setState doesn't support setting nested objects in state object, so here we go.
-   * This is a convenience function for setting player state that is nested in state object
-   * https://stackoverflow.com/a/43041334
-   */
-  setPlayerState(playerFormData) {
-    const { player } = this.state;
+  setFirstName(firstName) {
+    this.player.firstName = firstName;
+  }
 
-    Object.keys(playerFormData).forEach((key) => {
-      player[key] = playerFormData[key];
-    });
+  setLastName(lastName) {
+    this.player.lastName = lastName;
+  }
 
-    this.setState({ player });
+  setNickName(nickName) {
+    this.player.nickName = nickName;
   }
 
   goBack() {
@@ -56,8 +71,32 @@ class PlayerCreateForm extends React.Component {
     this.setState({ isCreating: true });
   }
 
+  isValid() {
+    const { firstName, lastName } = this.player;
+    const { errors } = this.state;
+
+    if (!(firstName)) {
+      if (!(errors.firstName.length)) errors.firstName.push(FirstNameRequiredError('firstNameRequired'));
+    } else {
+      errors.firstName = [];
+    }
+
+    if (!(lastName)) {
+      if (!(errors.lastName.length)) errors.lastName.push(LastNameRequiredError('lastNameRequired'));
+    } else {
+      errors.lastName = [];
+    }
+
+    if (errors.firstName.length || errors.lastName.length) {
+      this.setState({ errors });
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
-    const { isCreating } = this.state;
+    const { isCreating, errors } = this.state;
 
     if (isCreating) {
       return (
@@ -69,25 +108,37 @@ class PlayerCreateForm extends React.Component {
 
     return (
       <View style={styles.playerCreateFormRoot}>
-        <TextInput
+        <FormLabel> First name </FormLabel>
+        <FormInput
           style={styles.playerCreateFormTextInput}
+          maxLength={35}
           autoFocus
           autoCapitalize="words"
-          placeholder="First name"
-          onChangeText={firstName => this.setPlayerState({ firstName })}
+          placeholder="e.g. John"
+          onChangeText={this.setFirstName}
         />
-        <TextInput
-          style={styles.playerCreateFormTextInput}
-          autoCapitalize="words"
-          placeholder="Last name"
-          onChangeText={lastName => this.setPlayerState({ lastName })}
-        />
+        {
+          errors.firstName
+        }
 
-        <TextInput
+        <FormLabel> Last name </FormLabel>
+        <FormInput
           style={styles.playerCreateFormTextInput}
+          maxLength={35}
           autoCapitalize="words"
-          placeholder="Nick name"
-          onChangeText={nickName => this.setPlayerState({ nickName })}
+          placeholder="e.g. Doe"
+          onChangeText={this.setLastName}
+        />
+        {
+          errors.lastName
+        }
+        <FormLabel> Nick name </FormLabel>
+        <FormInput
+          style={styles.playerCreateFormTextInput}
+          maxLength={35}
+          autoCapitalize="words"
+          placeholder="e.g. The Machine"
+          onChangeText={this.setNickName}
         />
 
         <Button
