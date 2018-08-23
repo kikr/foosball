@@ -2,9 +2,12 @@ import React from 'react';
 import {
   View,
   Text,
+  TouchableHighlight,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import styles from './styles';
 
+// Poor mans enum. Don't use duplicate values
 const HEADERS = {
   PLAYER_NAME: 'Player name',
   WINS: 'Wins',
@@ -47,13 +50,22 @@ const PlayerStatsListHeader = props => (
   <View style={styles.listHeader}>
     {
       Object.entries(HEADERS).map(headers => (
-        <Text
-          key={headers[0]}
-          style={styles.listHeaderItem}
+        // Make a View clickable
+        <TouchableHighlight
+          style={styles.listHeaderItemRoot}
           onPress={() => onHeaderPress(headers, props)}
         >
-          {headers[1]}
-        </Text>
+          <View>
+            <Text
+              style={styles.listHeaderItemText}
+              key={headers[0]}
+              numberOfLines={2}
+            >
+              {headers[1]}
+            </Text>
+            <Icon name="arrow-drop-down" color="white" />
+          </View>
+        </TouchableHighlight>
       ))
     }
 

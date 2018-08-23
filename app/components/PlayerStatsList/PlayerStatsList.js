@@ -45,8 +45,6 @@ class PlayerStatsList extends React.Component {
     const { players } = this.state;
     const { ascendingSort } = this.state;
 
-    this.sortByNumericPlayerStat('goalsConceded');
-
     if (ascendingSort) {
       players.sort(
         (player1, player2) => player1.firstName.toLowerCase().charCodeAt(0)
@@ -110,7 +108,7 @@ class PlayerStatsList extends React.Component {
       ? <ActivityIndicator style={{ flex: 1 }} />
       : (
         <FlatList
-          ListHeaderComponent={() => new PlayerStatsListHeader({
+          ListHeaderComponent={() => PlayerStatsListHeader({
             onSortByWins: this.onSortByWins,
             onSortByLosses: this.onSortByLosses,
             onSortByGoalsScored: this.onSortByGoalsScored,
