@@ -1,4 +1,6 @@
 import { createMaterialTopTabNavigator } from 'react-navigation';
+import React from 'react';
+import { Icon } from 'react-native-elements';
 import PlayersScreen from './screens/Players';
 import MatchScreen from './screens/Matches';
 import PlayerStatsScreen from './screens/PlayerStats';
@@ -11,9 +13,16 @@ PlayerStatsScreen.navigationOptions = {
 export default createMaterialTopTabNavigator({
   Players: PlayersScreen,
   Matches: MatchScreen,
-  PlayerStats: PlayerStatsScreen,
+  PlayerStats: {
+    screen: PlayerStatsScreen,
+    navigationOptions: {
+      tabBarIcon: <Icon name="equalizer" color="white" />,
+    },
+  },
 }, {
   tabBarOptions: {
+    showLabel: false,
+    showIcon: true,
     labelStyle: {
       fontSize: 12,
     },
