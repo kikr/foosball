@@ -1,9 +1,10 @@
 import React from 'react';
 import MatchCreateForm from '../components/MatchCreateForm';
+import StackHardwareBackHandler from '../global/StackHardwareBackHandler';
 
-// Navigation property is not automatically passed down to screens' children
-const MatchCreateScreen = ({ navigation }) => (
-  <MatchCreateForm navigation={navigation} />
-);
-
-export default MatchCreateScreen;
+export default class MatchCreateScreen extends StackHardwareBackHandler {
+  render() {
+    const { navigation } = this.props;
+    return <MatchCreateForm navigation={navigation} />;
+  }
+}

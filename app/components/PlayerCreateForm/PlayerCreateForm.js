@@ -28,9 +28,7 @@ class PlayerCreateForm extends React.Component {
       .createPlayer(new Player(player))
       .then(() => {
         console.log('Player created...');
-        const { navigation } = this.props;
-
-        navigation.goBack();
+        this.goBack();
       });
   }
 
@@ -47,6 +45,11 @@ class PlayerCreateForm extends React.Component {
     });
 
     this.setState({ player });
+  }
+
+  goBack() {
+    const { navigation } = this.props;
+    navigation.goBack();
   }
 
   enableLoading() {
