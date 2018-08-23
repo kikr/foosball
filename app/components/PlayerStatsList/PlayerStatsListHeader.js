@@ -48,6 +48,7 @@ const PlayerStatsListHeader = props => (
     {
       Object.entries(HEADERS).map(headers => (
         <Text
+          key={headers[0]}
           style={styles.listHeaderItem}
           onPress={() => onHeaderPress(headers, props)}
         >
