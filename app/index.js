@@ -11,7 +11,6 @@ PlayerStatsScreen.navigationOptions = {
 };
 
 export default createMaterialTopTabNavigator({
-  Players: PlayersScreen,
   Matches: MatchScreen,
   PlayerStats: {
     screen: PlayerStatsScreen,
@@ -19,6 +18,7 @@ export default createMaterialTopTabNavigator({
       tabBarIcon: <Icon name="equalizer" color="white" />,
     },
   },
+  Players: PlayersScreen,
 }, {
   tabBarOptions: {
     showLabel: false,
