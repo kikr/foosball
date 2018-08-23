@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import {
   Button,
@@ -107,46 +108,48 @@ class PlayerCreateForm extends React.Component {
     }
 
     return (
-      <View style={styles.playerCreateFormRoot}>
-        <FormLabel> First name </FormLabel>
-        <FormInput
-          style={styles.playerCreateFormTextInput}
-          maxLength={35}
-          autoFocus
-          autoCapitalize="words"
-          placeholder="e.g. John"
-          onChangeText={this.setFirstName}
-        />
-        {
-          errors.firstName
-        }
+      <ScrollView>
+        <View style={styles.playerCreateFormRoot}>
+          <FormLabel> First name </FormLabel>
+          <FormInput
+            style={styles.playerCreateFormTextInput}
+            maxLength={35}
+            autoFocus
+            autoCapitalize="words"
+            placeholder="e.g. John"
+            onChangeText={this.setFirstName}
+          />
+          {
+            errors.firstName
+          }
 
-        <FormLabel> Last name </FormLabel>
-        <FormInput
-          style={styles.playerCreateFormTextInput}
-          maxLength={35}
-          autoCapitalize="words"
-          placeholder="e.g. Doe"
-          onChangeText={this.setLastName}
-        />
-        {
-          errors.lastName
-        }
-        <FormLabel> Nick name </FormLabel>
-        <FormInput
-          style={styles.playerCreateFormTextInput}
-          maxLength={35}
-          autoCapitalize="words"
-          placeholder="e.g. The Machine"
-          onChangeText={this.setNickName}
-        />
+          <FormLabel> Last name </FormLabel>
+          <FormInput
+            style={styles.playerCreateFormTextInput}
+            maxLength={35}
+            autoCapitalize="words"
+            placeholder="e.g. Doe"
+            onChangeText={this.setLastName}
+          />
+          {
+            errors.lastName
+          }
+          <FormLabel> Nick name </FormLabel>
+          <FormInput
+            style={styles.playerCreateFormTextInput}
+            maxLength={35}
+            autoCapitalize="words"
+            placeholder="e.g. The Machine"
+            onChangeText={this.setNickName}
+          />
 
-        <Button
-          title="Create"
-          backgroundColor={theme.color}
-          onPress={this.onCreatePlayer}
-        />
-      </View>
+          <Button
+            title="Create"
+            backgroundColor={theme.color}
+            onPress={this.onCreatePlayer}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
