@@ -5,13 +5,22 @@ import {
 } from 'react-native';
 import PlayerCollection from '../../api/PlayerCollection';
 import PlayerStatsListItem from './PlayerStatsListItem';
-import PlayerStatsListHeader from './PlayerStatsListHeader';
+import PlayerStatsListHeader, { HEADERS } from './PlayerStatsListHeader';
+
+// See PlayerStats
+// Notice that player name is not a property of PlayerStats
+const PLAYER_STATS_PROPERTIES = {
+  WINS: 'wins',
+  LOSSES: 'losses',
+  GOALS_SCORED: 'goalsScored',
+  GOALS_CONCEDED: 'goalsConceded',
+};
 
 class PlayerStatsList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { players: [], ascendingSort: true };
+    this.state = { players: [], sortBy: '', isAscendingSort: true };
 
     this.onSortByWins = this.onSortByWins.bind(this);
     this.onSortByLosses = this.onSortByLosses.bind(this);
@@ -25,26 +34,26 @@ class PlayerStatsList extends React.Component {
   }
 
   onSortByWins() {
-    this.sortByNumericPlayerStat('wins');
+    this.sortByNumericPlayerStat(PLAYER_STATS_PROPERTIES.WINS);
   }
 
   onSortByLosses() {
-    this.sortByNumericPlayerStat('losses');
+    this.sortByNumericPlayerStat(PLAYER_STATS_PROPERTIES.LOSSES);
   }
 
   onSortByGoalsScored() {
-    this.sortByNumericPlayerStat('goalsScored');
+    this.sortByNumericPlayerStat(PLAYER_STATS_PROPERTIES.GOALS_SCORED);
   }
 
   onSortByGoalsConceded() {
-    this.sortByNumericPlayerStat('goalsConceded');
+    this.sortByNumericPlayerStat(PLAYER_STATS_PROPERTIES.GOALS_CONCEDED);
   }
 
   onSortByPlayerName() {
     const { players } = this.state;
-    const { ascendingSort } = this.state;
+    const { isAscendingSort } = this.state;
 
-    if (ascendingSort) {
+    if (isAscendingSort) {
       players.sort(
         (player1, player2) => player1.firstName.toLowerCase().charCodeAt(0)
         - player2.firstName.toLowerCase().charCodeAt(0),
@@ -55,21 +64,16 @@ class PlayerStatsList extends React.Component {
         - player1.firstName.toLowerCase().charCodeAt(0),
       );
     }
-    // Notice toggling of the sort direction.
-    this.setState({ players, ascendingSort: !ascendingSort });
+    this.setState({ players, sortBy: HEADERS.PLAYER_NAME, isAscendingSort: !isAscendingSort });
   }
 
   getAllPlayers() {
     this.setState({ players: [] });
 
     new PlayerCollection().getPlayers().then((players) => {
-      // Quick and dirty way to intially sort by wins.
-      // Existing methods doesn't really work due to they toggling nature
-      players.sort(
-        (player1, player2) => player2.stats.wins - player1.stats.wins,
-      );
-
       this.setState({ players });
+      this.onSortByWins();
+      this.onSortByWins();
     });
   }
 
@@ -84,11 +88,35 @@ class PlayerStatsList extends React.Component {
     );
   }
 
+  /* eslint-disable class-methods-use-this */
+  convertStatPropertyToHeader(property) {
+    let header;
+    switch (property) {
+      case PLAYER_STATS_PROPERTIES.WINS:
+        header = HEADERS.WINS;
+        break;
+      case PLAYER_STATS_PROPERTIES.LOSSES:
+        header = HEADERS.LOSSES;
+        break;
+      case PLAYER_STATS_PROPERTIES.GOALS_SCORED:
+        header = HEADERS.GOALS_SCORED;
+        break;
+      case PLAYER_STATS_PROPERTIES.GOALS_CONCEDED:
+        header = HEADERS.GOALS_CONCEDED;
+        break;
+      default:
+        throw Error('Could not map a Player Stat property to a list header');
+    }
+
+    return header;
+  }
+  /* eslint-enable class-methods-use-this */
+
   sortByNumericPlayerStat(statProperty) {
     const { players } = this.state;
-    const { ascendingSort } = this.state;
+    const { isAscendingSort } = this.state;
 
-    if (ascendingSort) {
+    if (isAscendingSort) {
       players.sort(
         (player1, player2) => player1.stats[statProperty] - player2.stats[statProperty],
       );
@@ -98,23 +126,33 @@ class PlayerStatsList extends React.Component {
       );
     }
     // Notice toggling of the sort direction.
-    this.setState({ players, ascendingSort: !ascendingSort });
+    this.setState({
+      players,
+      sortBy: this.convertStatPropertyToHeader(statProperty),
+      isAscendingSort: !isAscendingSort,
+    });
   }
 
   render() {
-    const { players } = this.state;
+    const { players, sortBy, isAscendingSort } = this.state;
+
+    const header = (
+      <PlayerStatsListHeader
+        sortBy={sortBy}
+        isAscendingSort={isAscendingSort}
+        onSortByWins={this.onSortByWins}
+        onSortByLosses={this.onSortByLosses}
+        onSortByGoalsScored={this.onSortByGoalsScored}
+        onSortByGoalsConceded={this.onSortByGoalsConceded}
+        onSortByPlayerName={this.onSortByPlayerName}
+      />
+    );
 
     return (
       <View style={{ flex: 1 }}>
 
         <FlatList
-          ListHeaderComponent={() => PlayerStatsListHeader({
-            onSortByWins: this.onSortByWins,
-            onSortByLosses: this.onSortByLosses,
-            onSortByGoalsScored: this.onSortByGoalsScored,
-            onSortByGoalsConceded: this.onSortByGoalsConceded,
-            onSortByPlayerName: this.onSortByPlayerName,
-          })}
+          ListHeaderComponent={header}
           keyExtractor={item => item.getId()}
           data={players}
           renderItem={PlayerStatsListItem}

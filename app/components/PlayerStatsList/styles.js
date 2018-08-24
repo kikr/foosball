@@ -20,6 +20,12 @@ export default StyleSheet.create({
     marginBottom: 5,
     flex: 1,
   },
+
+  listHeaderSortIconRoot: {
+    height: 15,
+    flex: 1,
+  },
+
   listItemRoot: {
     flex: 1,
     flexDirection: 'row',
