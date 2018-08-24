@@ -5,6 +5,7 @@ import {
   Text,
 } from 'react-native';
 import styles from './styles';
+import PlayersGrid from './PlayersGrid';
 
 const composePlayerNames = (players) => {
   const composedName = player => (
@@ -31,28 +32,28 @@ const MatchListItem = ({ item: match }) => {
     <ListItem
       style={styles.playerList}
       title={(
-        <View style={{ alignItems: 'center' }}>
-          <View>
-            <Text>
-              {`${homePlayerNames}`}
-            </Text>
-          </View>
-          <View>
-            <Text>
+        <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+          <PlayersGrid
+            cols={2}
+            rows={2}
+            playerNames={homePlayerNames}
+          />
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 20 }}>
               {`${match.homeScore}`}
             </Text>
-            <Text>
+            <Text style={{ fontSize: 16 }}>
               {`${getMatchTime(match)}`}
             </Text>
-            <Text>
+            <Text style={{ fontSize: 20 }}>
               {`${match.awayScore}`}
             </Text>
           </View>
-          <View>
-            <Text>
-              {`${awayPlayerNames}`}
-            </Text>
-          </View>
+          <PlayersGrid
+            cols={2}
+            rows={2}
+            playerNames={awayPlayerNames}
+          />
         </View>
       )}
       hideChevron
