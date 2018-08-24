@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   FlatList,
-  ActivityIndicator,
 } from 'react-native';
 import PlayerCollection from '../../api/PlayerCollection';
 import PlayerStatsListItem from './PlayerStatsListItem';
@@ -12,7 +11,7 @@ class PlayerStatsList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isLoading: true, players: [], ascendingSort: true };
+    this.state = { players: [], ascendingSort: true };
 
     this.onSortByWins = this.onSortByWins.bind(this);
     this.onSortByLosses = this.onSortByLosses.bind(this);
@@ -61,7 +60,7 @@ class PlayerStatsList extends React.Component {
   }
 
   getAllPlayers() {
-    this.setState({ isLoading: true });
+    this.setState({ players: [] });
 
     new PlayerCollection().getPlayers().then((players) => {
       // Quick and dirty way to intially sort by wins.
@@ -70,7 +69,7 @@ class PlayerStatsList extends React.Component {
         (player1, player2) => player2.stats.wins - player1.stats.wins,
       );
 
-      this.setState({ players, isLoading: false });
+      this.setState({ players });
     });
   }
 
@@ -103,10 +102,11 @@ class PlayerStatsList extends React.Component {
   }
 
   render() {
-    const { players, isLoading } = this.state;
-    const content = isLoading
-      ? <ActivityIndicator style={{ flex: 1 }} />
-      : (
+    const { players } = this.state;
+
+    return (
+      <View style={{ flex: 1 }}>
+
         <FlatList
           ListHeaderComponent={() => PlayerStatsListHeader({
             onSortByWins: this.onSortByWins,
@@ -121,12 +121,6 @@ class PlayerStatsList extends React.Component {
           // Make the header stick: https://stackoverflow.com/a/48806118
           stickyHeaderIndices={[0]}
         />
-      );
-
-    return (
-      <View style={{ flex: 1 }}>
-
-        { content }
 
       </View>
     );

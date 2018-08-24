@@ -137,7 +137,7 @@ class PlayerCreateForm extends React.Component {
           <FormLabel> Nick name </FormLabel>
           <FormInput
             style={styles.playerCreateFormTextInput}
-            maxLength={35}
+            maxLength={20}
             autoCapitalize="words"
             placeholder="e.g. The Machine"
             onChangeText={this.setNickName}
