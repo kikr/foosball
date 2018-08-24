@@ -62,6 +62,7 @@ export default class PlayerStatsListHeader extends React.Component {
           Object.entries(HEADERS).map(headers => (
             // Make a View clickable
             <TouchableOpacity
+              key={headers[0]}
               style={styles.listHeaderItemRoot}
               onPress={() => this.onHeaderPress(headers)}
             >
@@ -76,7 +77,6 @@ export default class PlayerStatsListHeader extends React.Component {
 
                 <Text
                   style={styles.listHeaderItemText}
-                  key={headers[0]}
                   numberOfLines={2}
                 >
                   {headers[1]}
