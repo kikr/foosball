@@ -56,7 +56,11 @@ class MatchList extends React.Component {
   render() {
     const { matches, isLoading } = this.state;
     const content = isLoading
-      ? <ActivityIndicator style={{ flex: 1 }} />
+      ? (<ActivityIndicator
+        style={{ flex: 1 }}
+        size="large"
+      />
+      )
       : (
         <FlatList
           keyExtractor={item => item.getId()}

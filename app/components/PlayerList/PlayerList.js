@@ -58,7 +58,11 @@ class PlayerList extends React.Component {
   render() {
     const { players, isLoading } = this.state;
     const content = isLoading
-      ? <ActivityIndicator style={{ flex: 1 }} />
+      ? (<ActivityIndicator
+        style={{ flex: 1 }}
+        size="large"
+      />
+      )
       : (
         <FlatList
           keyExtractor={item => item.getId()}
